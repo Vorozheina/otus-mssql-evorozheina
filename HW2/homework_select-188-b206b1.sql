@@ -76,22 +76,22 @@ WHERE NOT EXISTS (SELECT PO.PurchaseOrderID
 Таблицы: Sales.Orders, Sales.OrderLines, Sales.Customers.
 */
 --1--
-SELECT O.OrderID, FORMAT(O.OrderDate, 'dd.mm.yyyy') AS [OrderDate], FORMAT(O.OrderDate, 'MMMM') AS [OrderMonth], 
+SELECT O.OrderID, FORMAT(O.OrderDate, 'dd.MM.yyyy') AS [OrderDate], FORMAT(O.OrderDate, 'MMMM') AS [OrderMonth], 
 	   DATEPART(QUARTER, O.OrderDate) AS [QuarterOfYear], ((DATEPART(MONTH, O.OrderDate)-1)/4)+1 AS [Trimester], C.CustomerName
 FROM Sales.Orders O INNER JOIN Sales.OrderLines OL ON OL.OrderID = O.OrderID 
 	INNER JOIN Sales.Customers C ON C.CustomerID = O.CustomerID
-WHERE OL.UnitPrice > 100 
-	OR OL.Quantity > 20 
+WHERE (OL.UnitPrice > 100 
+	OR OL.Quantity > 20) 
 	AND O.PickingCompletedWhen IS NOT NULL
 ORDER BY [QuarterOfYear], [Trimester], [OrderDate] ASC;
 
 --2--
-SELECT O.OrderID, FORMAT(O.OrderDate, 'dd.mm.yyyy') AS [OrderDate], FORMAT(O.OrderDate, 'MMMM') AS [OrderMonth], 
+SELECT O.OrderID, CONVERT(VARCHAR, O.OrderDate, 104) AS [OrderDate], FORMAT(O.OrderDate, 'MMMM') AS [OrderMonth], 
 	   DATEPART(QUARTER, O.OrderDate) AS [QuarterOfYear], ((DATEPART(MONTH, O.OrderDate)-1)/4)+1 AS [Trimester], C.CustomerName
 FROM Sales.Orders O INNER JOIN Sales.OrderLines OL ON OL.OrderID = O.OrderID 
 	INNER JOIN Sales.Customers C ON C.CustomerID = O.CustomerID
-WHERE OL.UnitPrice > 100 
-	OR OL.Quantity > 20 
+WHERE (OL.UnitPrice > 100 
+	OR OL.Quantity > 20) 
 	AND O.PickingCompletedWhen IS NOT NULL
 ORDER BY [QuarterOfYear], [Trimester], [OrderDate] ASC
 OFFSET 1000 ROWS 
@@ -109,13 +109,23 @@ OFFSET 1000 ROWS
 
 Таблицы: Purchasing.Suppliers, Purchasing.PurchaseOrders, Application.DeliveryMethods, Application.People.
 */
-
+--1--
 SELECT DM.DeliveryMethodName, PO.ExpectedDeliveryDate, S.SupplierName, P.FullName AS [ContactPerson]
 FROM Purchasing.PurchaseOrders PO 
 	INNER JOIN Purchasing.Suppliers S ON PO.SupplierID = S.SupplierID
 	INNER JOIN [Application].DeliveryMethods DM ON PO.DeliveryMethodID = DM.DeliveryMethodID
 	INNER JOIN [Application].People P ON PO.ContactPersonID = P.PersonID
 WHERE YEAR(PO.ExpectedDeliveryDate) = 2013 AND MONTH(PO.ExpectedDeliveryDate) = 1
+	AND (DM.DeliveryMethodName = 'Air Freight' OR DM.DeliveryMethodName = 'Refrigerated Air Freight')
+	AND PO.IsOrderFinalized = 1;
+
+--2--
+SELECT DM.DeliveryMethodName, PO.ExpectedDeliveryDate, S.SupplierName, P.FullName AS [ContactPerson]
+FROM Purchasing.PurchaseOrders PO 
+	INNER JOIN Purchasing.Suppliers S ON PO.SupplierID = S.SupplierID
+	INNER JOIN [Application].DeliveryMethods DM ON PO.DeliveryMethodID = DM.DeliveryMethodID
+	INNER JOIN [Application].People P ON PO.ContactPersonID = P.PersonID
+WHERE PO.ExpectedDeliveryDate BETWEEN '20130101' AND '20130131'
 	AND (DM.DeliveryMethodName = 'Air Freight' OR DM.DeliveryMethodName = 'Refrigerated Air Freight')
 	AND PO.IsOrderFinalized = 1;
 
