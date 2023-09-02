@@ -53,23 +53,28 @@ AS
 SELECT PP.FullName
 FROM Application.People PP
 WHERE PP.IsSalesperson = 1 AND PP.PersonID NOT IN (SELECT PersonCTE.PersonID FROM PersonCTE);
-
+/*
+планы запросов вышли одинаковыми по стоимости, несмотря на то, что запись первого запроса компактнее.
+*/
 /*
 2. Выберите товары с минимальной ценой (подзапросом). Сделайте два варианта подзапроса. 
 Вывести: ИД товара, наименование товара, цена.
 */
 
 --1--
-SELECT DISTINCT SII.StockItemID, SII.StockItemName, IL.UnitPrice 
-FROM Warehouse.StockItems SII 
-	INNER JOIN Sales.InvoiceLines IL ON IL.StockItemID = SII.StockItemID 
-WHERE IL.UnitPrice = (SELECT MIN(Sales.InvoiceLines.UnitPrice) FROM Sales.InvoiceLines);
+WITH MinPriceCTE(MinPrice)
+AS
+	(
+		SELECT MIN(Warehouse.StockItems.UnitPrice) FROM Warehouse.StockItems
+	)
+SELECT SII.StockItemID, SII.StockItemName, SII.UnitPrice 
+FROM Warehouse.StockItems SII
+	INNER JOIN MinPriceCTE ON SII.UnitPrice = MinPriceCTE.MinPrice;
 
 --2--
-SELECT DISTINCT SII.StockItemID, SII.StockItemName, IL.UnitPrice 
-FROM Warehouse.StockItems SII 
-	INNER JOIN Sales.InvoiceLines IL ON IL.StockItemID = SII.StockItemID 
-WHERE IL.UnitPrice <= ALL (SELECT Sales.InvoiceLines.UnitPrice FROM Sales.InvoiceLines);
+SELECT SII.StockItemID, SII.StockItemName, SII.UnitPrice 
+FROM Warehouse.StockItems SII
+WHERE SII.UnitPrice <= ALL (SELECT Warehouse.StockItems.UnitPrice FROM Warehouse.StockItems);
 
 
 
