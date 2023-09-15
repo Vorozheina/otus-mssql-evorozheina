@@ -149,9 +149,10 @@ UNPIVOT (Code FOR CountryCode IN (IsoAlpha3Code, IsoNumCode)) AS CountryWithCode
 --1--
 SELECT C.CustomerID, C.CustomerName, SI.*
 FROM Sales.Customers C
-CROSS APPLY (SELECT TOP 2 IL.StockItemID, IL.UnitPrice, I.InvoiceDate
+CROSS APPLY (SELECT TOP (2)  I.CustomerID, IL.StockItemID, MAX(IL.UnitPrice) ExpPrice, MAX(I.InvoiceDate) AS InvoiceDate
                 FROM Sales.Invoices I
 					INNER JOIN Sales.InvoiceLines IL ON IL.InvoiceID = I.InvoiceID 
                 WHERE I.CustomerID = C.CustomerID
-                ORDER BY IL.UnitPrice DESC) AS SI
+				GROUP BY I.CustomerID, IL.StockItemID
+                ORDER BY I.CustomerID ASC, ExpPrice DESC) AS SI
 ORDER BY C.CustomerName;
