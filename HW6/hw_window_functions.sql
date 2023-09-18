@@ -245,3 +245,4 @@ FROM
 					INNER JOIN Sales.InvoiceLines IL ON I.InvoiceID = IL.InvoiceID
 	GROUP BY I.CustomerID, I.InvoiceDate, IL.UnitPrice) T ON Q.CustomerID = T.CustomerID AND T.InvoiceDate = Q.InvoiceDate AND T.UnitPrice = Q.UnitPrice
 ORDER BY C.CustomerName, Q.UnitPrice DESC;
+--согласно плану выполнения этих двух запросов оконные функции отработали примерно в 3 раза быстрее
