@@ -1,0 +1,10 @@
+C:\work\learn\otus-mssql-evorozheina\HW20\source\MyCLRFunctions\MyCLRFunctions\bin\Debug\MyCLRFunctions.dacpac
+C:\work\learn\otus-mssql-evorozheina\HW20\source\MyCLRFunctions\MyCLRFunctions\bin\Debug\MyCLRFunctions.dll
+C:\work\learn\otus-mssql-evorozheina\HW20\source\MyCLRFunctions\MyCLRFunctions\bin\Debug\MyCLRFunctions.pdb
+C:\work\learn\otus-mssql-evorozheina\HW20\source\MyCLRFunctions\MyCLRFunctions\obj\Debug\MyCLRFunctions.sqlproj.AssemblyReference.cache
+C:\work\learn\otus-mssql-evorozheina\HW20\source\MyCLRFunctions\MyCLRFunctions\obj\Debug\Model.xml
+C:\work\learn\otus-mssql-evorozheina\HW20\source\MyCLRFunctions\MyCLRFunctions\obj\Debug\refactor.xml
+C:\work\learn\otus-mssql-evorozheina\HW20\source\MyCLRFunctions\MyCLRFunctions\obj\Debug\postdeploy.sql
+C:\work\learn\otus-mssql-evorozheina\HW20\source\MyCLRFunctions\MyCLRFunctions\obj\Debug\predeploy.sql
+C:\work\learn\otus-mssql-evorozheina\HW20\source\MyCLRFunctions\MyCLRFunctions\obj\Debug\MyCLRFunctions.dll
+C:\work\learn\otus-mssql-evorozheina\HW20\source\MyCLRFunctions\MyCLRFunctions\obj\Debug\MyCLRFunctions.pdb
