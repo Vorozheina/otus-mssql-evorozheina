@@ -1,0 +1,37 @@
+USE [LittleLozon]
+GO
+
+/****** Object:  Table [dbo].[Contract]    Script Date: 30.01.2024 18:02:19 ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [dbo].[Contract](
+	[ID] [BIGINT] NOT NULL,
+	[Date] [DATETIME] NULL,
+	[Num] [VARCHAR](255) NULL,
+	[CustomerID] [BIGINT] NOT NULL,
+	[PerformerID] [BIGINT] NOT NULL,
+	[StopDate] [DATETIME] NULL,
+	[NDSFree] [TINYINT] NULL,
+	[Name] [VARCHAR](255) NOT NULL,
+	[Descript] [VARCHAR](255) NULL,
+	[ContractType] [VARCHAR](255) NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+
+ALTER TABLE [dbo].[Contract]  WITH CHECK ADD FOREIGN KEY([CustomerID])
+REFERENCES [dbo].[Contractor] ([ID])
+GO
+
+ALTER TABLE [dbo].[Contract]  WITH CHECK ADD FOREIGN KEY([PerformerID])
+REFERENCES [dbo].[Contractor] ([ID])
+GO
+
+
